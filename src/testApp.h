@@ -25,11 +25,29 @@ public:
 private:
 	ofxEasyFft fft;
 
+	float power = 0;
+	float bass = 0;
+	float mid = 0;
+	float treble = 0;
+
 	void plotFft(const vector<float>& buffer, const float scale);
 
+	float integrateFft(const vector<float>& bins, const unsigned int minFreq, const unsigned int maxFreq);
+
+	/*constexpr*/ int getBinFromFreq(const unsigned int freq) {
+		return fftBufferSize * freq / audioSampleRate;
+	}
+
 	// constants
-	const int fftBufferSize = 4096;
-	const int audioBufferSize = 256;
-	const int audioSampleRate = 44100;
+	const unsigned int fftBufferSize = 4096;
+	const unsigned int audioBufferSize = 256;
+	const unsigned int audioSampleRate = 44100;
+
+	const unsigned int bassMin = 0;
+	const unsigned int bassMax = 100;
+	const unsigned int midMin = 100;
+	const unsigned int midMax = 1000;
+	const unsigned int trebleMin = 1000;
+	const unsigned int trebleMax = 2000;
 
 };
