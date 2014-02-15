@@ -140,4 +140,4 @@
 # PROJECT_CXX = 
 # PROJECT_CC = 
 
-USER_LDFLAGS = -lfftw3f
+#USER_LDFLAGS = -lfftw3f

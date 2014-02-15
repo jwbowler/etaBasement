@@ -6,7 +6,7 @@ void testApp::setup(){
 	ofSetFrameRate(60);
 	fft.setup(fftBufferSize,
 			  OF_FFT_WINDOW_HAMMING,
-			  OF_FFT_FFTW,
+			  OF_FFT_BASIC,
 			  audioBufferSize,
 			  audioSampleRate);
 	fft.setUseNormalization(false);
