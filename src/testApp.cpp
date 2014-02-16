@@ -5,23 +5,29 @@
 void testApp::setup(){
 	ofSetVerticalSync(true);
 	ofSetFrameRate(60);
+
 	fft.setup(fftBufferSize,
 			  OF_FFT_WINDOW_HAMMING,
 			  OF_FFT_BASIC,
 			  audioBufferSize,
 			  audioSampleRate);
 	fft.setUseNormalization(false);
+
+	serial.setup("/dev/ttyACM0", 9600);
 }
 
 void testApp::update(){
 	fft.update();
+
+	std::cout << serial.readByte() << std::endl;
+	serial.flush(true, false);
 
 	power = integrateFft(fft.getBins(), 0, fftBufferSize/2);
 	bass = integrateFft(fft.getBins(), bassMin, bassMax);
 	mid = integrateFft(fft.getBins(), midMin, midMax);
 	treble = integrateFft(fft.getBins(), trebleMin, trebleMax);
 
-	//std::cout << "POWER: " << power << " BASS: " << bass << ", MID: " << mid << ", TREBLE: " << treble << std::endl;
+	serial.writeByte(power * 100);
 }
 
 void testApp::draw(){
