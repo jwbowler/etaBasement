@@ -44,7 +44,7 @@ private:
 	const unsigned int audioSampleRate = 44100;
 
 	const unsigned int bassMin = 0;
-	const unsigned int bassMax = 100;
+	const unsigned int bassMax = 200;
 	const unsigned int midMin = 100;
 	const unsigned int midMax = 1000;
 	const unsigned int trebleMin = 1000;
