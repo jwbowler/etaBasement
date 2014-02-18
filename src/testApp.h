@@ -65,10 +65,9 @@ private:
 	const unsigned int trebleMin = 1000;
 	const unsigned int trebleMax = 2000;
 	const int frameBegin = 255;
-	const unsigned int bassScale = 3;
-	const unsigned int midScale = 100;
-	const unsigned int trebleScale = 100;
+	const unsigned int bassScale = .3;
+	const unsigned int midScale = 10;
+	const unsigned int trebleScale = 10;
 	const unsigned int hueStep = 2;
-
 	BMT bmt;
 };

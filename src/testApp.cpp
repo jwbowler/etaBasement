@@ -16,9 +16,9 @@ void testApp::setup(){
 			  audioSampleRate);
 	fft.setUseNormalization(false);
 	//John's computer
-	// serial.setup("/dev/ttyACM0", 9600);
+	if(!serial.setup("/dev/ttyACM0", 9600)) {
 	//Amruth's Mac
-	if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
+	//if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
 		std::cout << "Couldn't set up serial connection" << std::endl;
 		std::exit(1);
 	}
@@ -83,18 +83,21 @@ void testApp::pushMusicValues(void) {
 	// serial.writeByte(scaled_treble);
 
 	//Now write the 3 color triplets
-	serial.writeByte(std::min((int) bmt.rgbBass -> r, 254));
-	serial.writeByte(std::min((int) bmt.rgbBass -> g, 254));
-	serial.writeByte(std::min((int) bmt.rgbBass -> b, 254));
+	//serial.writeByte(std::min((int) bmt.rgbBass -> r, 254));
+	//serial.writeByte(std::min((int) bmt.rgbBass -> g, 254));
+	//serial.writeByte(std::min((int) bmt.rgbBass -> b, 254));
 
 	serial.writeByte(std::min((int) bmt.rgbMid -> r, 254));
 	serial.writeByte(std::min((int) bmt.rgbMid -> g, 254));
 	serial.writeByte(std::min((int) bmt.rgbMid -> b, 254));
 
-	serial.writeByte(std::min((int) bmt.rgbTreble -> r, 254));
-	serial.writeByte(std::min((int) bmt.rgbTreble -> g, 254));
-	serial.writeByte(std::min((int) bmt.rgbTreble -> b, 254));
-	usleep(1000);
+	//serial.writeByte(std::min((int) bmt.rgbTreble -> r, 254));
+	//serial.writeByte(std::min((int) bmt.rgbTreble -> g, 254));
+	//serial.writeByte(std::min((int) bmt.rgbTreble -> b, 254));
+
+	std::cout << std::min((int) bmt.rgbMid -> r, 254) << " " << std::min((int) bmt.rgbMid -> g, 254) << " " << std::min((int) bmt.rgbMid -> b, 254) << std::endl;
+
+	usleep(2000);
 }
 
 void testApp::stepHue() {

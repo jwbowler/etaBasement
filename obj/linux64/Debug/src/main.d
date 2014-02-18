@@ -310,7 +310,7 @@ obj/linux64/Debug/src/main.o: src/main.cpp \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h src/testApp.h \
  ../../../addons/ofxFft/src/ofxEasyFft.h \
- ../../../addons/ofxFft/src/ofxFft.h
+ ../../../addons/ofxFft/src/ofxFft.h src/BMT.h src/colors.h
 
 ../../../libs/openFrameworks/ofMain.h:
 
@@ -969,3 +969,7 @@ src/testApp.h:
 ../../../addons/ofxFft/src/ofxEasyFft.h:
 
 ../../../addons/ofxFft/src/ofxFft.h:
+
+src/BMT.h:
+
+src/colors.h:
