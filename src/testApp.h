@@ -24,6 +24,7 @@ public:
 
 private:
 	ofxEasyFft fft;
+	ofSerial serial;
 
 	float power = 0;
 	float bass = 0;
