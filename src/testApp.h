@@ -68,7 +68,7 @@ private:
 	const unsigned int bassScale = 3;
 	const unsigned int midScale = 100;
 	const unsigned int trebleScale = 100;
-	const unsigned int hueStep = 5;
+	const unsigned int hueStep = 2;
 
 	BMT bmt;
 };
