@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxEasyFft.h"
+#include "BMT.h"
 
 class testApp : public ofBaseApp {
 
@@ -25,7 +26,6 @@ public:
 private:
 	ofxEasyFft fft;
 	ofSerial serial;
-
 	float power = 0;
 	float bass = 0;
 	float mid = 0;
@@ -34,6 +34,20 @@ private:
 	void plotFft(const vector<float>& buffer, const float scale);
 
 	float integrateFft(const vector<float>& bins, const unsigned int minFreq, const unsigned int maxFreq);
+
+	void pushMusicValues(void);
+
+	void initColor(void);
+
+	void stepColor(void);
+
+	void stepHue();
+
+	void bmtToRGB(void);
+
+	RGB* hsvToRGB(HSV* hsvTriple);
+
+	void updateColorVal(HSV* hsvTriple, int type, double bmtVal);
 
 	/*constexpr*/ int getBinFromFreq(const unsigned int freq) {
 		return fftBufferSize * freq / audioSampleRate;
@@ -50,5 +64,11 @@ private:
 	const unsigned int midMax = 1000;
 	const unsigned int trebleMin = 1000;
 	const unsigned int trebleMax = 2000;
+	const int frameBegin = 255;
+	const unsigned int bassScale = 3;
+	const unsigned int midScale = 100;
+	const unsigned int trebleScale = 100;
+	const unsigned int hueStep = 5;
 
+	BMT bmt;
 };
