@@ -73,6 +73,6 @@ private:
 	const double bassScale = 0.05;
 	const double midScale = 1.1;
 	const double trebleScale = 1;
-	const double hueStep = 3;
+	const double hueStep = 1;
 	BMT bmt;
 };
