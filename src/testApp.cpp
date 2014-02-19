@@ -26,49 +26,6 @@ void testApp::setup(){
 	// }
 
 	initColor();
-
-	// HSV* h = (HSV* ) malloc(sizeof(HSV));
-	// RGB* r = (RGB* ) malloc(sizeof(RGB));
-
-	// //white
-	// h->hue = 0;
-	// h -> sat = 0;
-	// h -> val = 1.00;
-	// r = hsvToRGB(h);
-	// printHSV(h);
-	// printRGB(r);
-
-	// //lime
-	// h->hue = 120;
-	// h -> sat = 1.0;
-	// h -> val = 1.0;
-	// r = hsvToRGB(h);
-	// printHSV(h);
-	// printRGB(r);
-
-	// // Magenta
-	// h->hue = 300;
-	// h -> sat = 1.0;
-	// h -> val = 1.0;
-	// r = hsvToRGB(h);
-	// printHSV(h);
-	// printRGB(r);
-
-	// //Maroon
-	// h->hue = 0;
-	// h -> sat = 1.0;
-	// h -> val = 0.5;
-	// r = hsvToRGB(h);
-	// printHSV(h);
-	// printRGB(r);
-
-	// //Purple
-	// h->hue = 300;
-	// h -> sat = 1.0;
-	// h -> val = 0.5;
-	// r = hsvToRGB(h);
-	// printHSV(h);
-	// printRGB(r);
 }
 
 void testApp::initColor() {
@@ -174,6 +131,7 @@ void testApp::bmtToRGB(void) {
 }
 
 void testApp::hsvToRGB(HSV* hsvTriple, RGB* rgbTriple) {
+	printHSV(hsvTriple);
 	double arr, gee, bee;
 	double h = hsvTriple -> hue;
 	double s = hsvTriple -> sat;
@@ -198,6 +156,7 @@ void testApp::hsvToRGB(HSV* hsvTriple, RGB* rgbTriple) {
   rgbTriple->r = (int) round(arr);
   rgbTriple->g = (int) round(gee);
   rgbTriple->b = (int) round(bee);
+  printRGB(rgbTriple);
 }
 
 
@@ -235,6 +194,7 @@ void testApp::draw(){
 	r = bmt.rgbBass -> r;
 	g = bmt.rgbBass-> g;
 	b = bmt.rgbBass -> b;
+	//std::cout << r << " " << g << " " << b << std::endl;
 	ofSetColor(r,g,b);
 	ofFill();
 	ofRect(64 * 4, 20, 50, 50);
@@ -262,7 +222,6 @@ void testApp::draw(){
 }
 
 void testApp::drawRGBRect(int type, int r, int g, int b) {
-	std::cout << "got into draw rgbRect" << std::endl;
 	ofSetColor(r,g,b);
 	ofFill();
 	// ofPushMatrix();

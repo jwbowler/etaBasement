@@ -1,10 +1,10 @@
 #include "colors.h"
 struct BMT {
-	HSV* hsvBass = 0;
-	HSV* hsvMid = 0;
-	HSV* hsvTreble = 0;
+	HSV* hsvBass;
+	HSV* hsvMid;
+	HSV* hsvTreble;
 
-	RGB* rgbBass = 0;
-	RGB* rgbMid = 0;
-	RGB* rgbTreble = 0;
+	RGB* rgbBass;
+	RGB* rgbMid;
+	RGB* rgbTreble;
 };
