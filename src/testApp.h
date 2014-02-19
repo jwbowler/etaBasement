@@ -36,8 +36,6 @@ private:
 	float mid = 0;
 	float treble = 0;
 
-	void drawRGBRect(int type, int r, int g, int b);
-
 	void plotFft(const vector<float>& buffer, const float scale);
 
 	float integrateFft(const vector<float>& bins, const unsigned int minFreq, const unsigned int maxFreq);

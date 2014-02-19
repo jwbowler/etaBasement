@@ -17,14 +17,20 @@ void testApp::setup(){
 			  audioBufferSize,
 			  audioSampleRate);
 	fft.setUseNormalization(false);
+	bool john = 1;
 	//John's computer
-	// if(!serial.setup("/dev/ttyACM0", 9600)) {
-	// //Amruth's Mac
-	// //if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
-	// 	std::cout << "Couldn't set up serial connection" << std::endl;
-	// 	std::exit(1);
-	// }
-
+	if (john) {
+		if(!serial.setup("/dev/ttyACM0", 9600)) {
+				// 	std::cout << "Couldn't set up serial connection" << std::endl;
+				// 	std::exit(1);
+		}
+	}
+	else {
+		if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
+			std::cout << "Couldn't set up serial connection" << std::endl;
+			std::exit(1);
+		}
+	}
 	initColor();
 }
 
@@ -61,11 +67,6 @@ void testApp::update(){
 	treble = integrateFft(fft.getBins(), trebleMin, trebleMax);
 	
 	pushMusicValues();
-
-	// drawRGBRect(0, bmt.rgbBass -> r, bmt.rgbBass -> g, bmt.rgbBass -> b);
-	// drawRGBRect(1, bmt.rgbMid -> r, bmt.rgbMid -> g, bmt.rgbMid -> b);
-	// drawRGBRect(2, bmt.rgbTreble -> r, bmt.rgbTreble -> g, bmt.rgbTreble -> b);
-
 }
 
 
@@ -90,20 +91,20 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 void testApp::pushMusicValues(void) {
 	stepColor();
 	
-	// serial.writeByte(frameBegin);
+	serial.writeByte(frameBegin);
 
 	//Now write the 3 color triplets
-	//serial.writeByte(std::min( bmt.rgbBass -> r, 254));
-	//serial.writeByte(std::min( bmt.rgbBass -> g, 254));
-	//serial.writeByte(std::min( bmt.rgbBass -> b, 254));
+	serial.writeByte(std::min( bmt.rgbBass -> r, 254));
+	serial.writeByte(std::min( bmt.rgbBass -> g, 254));
+	serial.writeByte(std::min( bmt.rgbBass -> b, 254));
 
-	// serial.writeByte(std::min( bmt.rgbMid -> r, 254));
-	// serial.writeByte(std::min( bmt.rgbMid -> g, 254));
-	// serial.writeByte(std::min( bmt.rgbMid -> b, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> r, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> g, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> b, 254));
 
-	//serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
-	//serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
-	//serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
 
 	usleep(2000);
 }
@@ -217,25 +218,6 @@ void testApp::draw(){
 	ofFill();
 	ofRect(64 * 6, 20, 50, 50);
 	ofPopMatrix();
-}
-
-void testApp::drawRGBRect(int type, int r, int g, int b) {
-	ofSetColor(r,g,b);
-	ofFill();
-	// ofPushMatrix();
-	//bass
-	if (type == 0) {
-		ofRect(64 * 4, 20, 50, 50);
-	}
-	//mid
-	else if (type == 1) {
-		ofRect(64 * 5, 20, 50, 50);
-	}
-	//treble
-	else {
-		ofRect(64 * 6, 20, 50, 50);
-	}
-	// ofPopMatrix();
 }
 
 
