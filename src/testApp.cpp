@@ -131,7 +131,6 @@ void testApp::bmtToRGB(void) {
 }
 
 void testApp::hsvToRGB(HSV* hsvTriple, RGB* rgbTriple) {
-	printHSV(hsvTriple);
 	double arr, gee, bee;
 	double h = hsvTriple -> hue;
 	double s = hsvTriple -> sat;
@@ -156,7 +155,6 @@ void testApp::hsvToRGB(HSV* hsvTriple, RGB* rgbTriple) {
   rgbTriple->r = (int) round(arr);
   rgbTriple->g = (int) round(gee);
   rgbTriple->b = (int) round(bee);
-  printRGB(rgbTriple);
 }
 
 
