@@ -1,7 +1,8 @@
 struct HSV {
-	double hue, sat, val;
+	double hue;
+	double sat, val;
 };
 
 struct RGB {
-	double r, g, b;
+	int r, g, b;
 };

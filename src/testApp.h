@@ -24,12 +24,19 @@ public:
 	//void gotMessage(ofMessage msg);
 
 private:
+
+	//DEBUG FUNCTIONS
+	void printHSV(HSV* h);
+	void printRGB(RGB* st);
+
 	ofxEasyFft fft;
 	ofSerial serial;
 	float power = 0;
 	float bass = 0;
 	float mid = 0;
 	float treble = 0;
+
+	void drawRGBRect(int type, int r, int g, int b);
 
 	void plotFft(const vector<float>& buffer, const float scale);
 
@@ -65,9 +72,9 @@ private:
 	const unsigned int trebleMin = 1000;
 	const unsigned int trebleMax = 2000;
 	const int frameBegin = 255;
-	const unsigned int bassScale = .3;
-	const unsigned int midScale = 10;
-	const unsigned int trebleScale = 10;
-	const unsigned int hueStep = 2;
+	const double bassScale = 0.08;
+	const double midScale = 1.1;
+	const double trebleScale = 1;
+	const double hueStep = 3;
 	BMT bmt;
 };

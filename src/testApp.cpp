@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cmath>
+#include <math.h>
 
 void testApp::setup(){
 	ofSetVerticalSync(true);
@@ -16,14 +18,57 @@ void testApp::setup(){
 			  audioSampleRate);
 	fft.setUseNormalization(false);
 	//John's computer
-	if(!serial.setup("/dev/ttyACM0", 9600)) {
-	//Amruth's Mac
-	//if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
-		std::cout << "Couldn't set up serial connection" << std::endl;
-		std::exit(1);
-	}
+	// if(!serial.setup("/dev/ttyACM0", 9600)) {
+	// //Amruth's Mac
+	// //if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
+	// 	std::cout << "Couldn't set up serial connection" << std::endl;
+	// 	std::exit(1);
+	// }
 
 	initColor();
+
+	// HSV* h = (HSV* ) malloc(sizeof(HSV));
+	// RGB* r = (RGB* ) malloc(sizeof(RGB));
+
+	// //white
+	// h->hue = 0;
+	// h -> sat = 0;
+	// h -> val = 1.00;
+	// r = hsvToRGB(h);
+	// printHSV(h);
+	// printRGB(r);
+
+	// //lime
+	// h->hue = 120;
+	// h -> sat = 1.0;
+	// h -> val = 1.0;
+	// r = hsvToRGB(h);
+	// printHSV(h);
+	// printRGB(r);
+
+	// // Magenta
+	// h->hue = 300;
+	// h -> sat = 1.0;
+	// h -> val = 1.0;
+	// r = hsvToRGB(h);
+	// printHSV(h);
+	// printRGB(r);
+
+	// //Maroon
+	// h->hue = 0;
+	// h -> sat = 1.0;
+	// h -> val = 0.5;
+	// r = hsvToRGB(h);
+	// printHSV(h);
+	// printRGB(r);
+
+	// //Purple
+	// h->hue = 300;
+	// h -> sat = 1.0;
+	// h -> val = 0.5;
+	// r = hsvToRGB(h);
+	// printHSV(h);
+	// printRGB(r);
 }
 
 void testApp::initColor() {
@@ -34,8 +79,8 @@ void testApp::initColor() {
 
 	bmt.hsvMid = (HSV* ) malloc(sizeof(HSV));
 	bmt.hsvMid -> hue = 0;
-	bmt.hsvMid -> sat = 0;
-	bmt.hsvMid -> val = 0;
+	bmt.hsvMid -> sat = 1.0;
+	bmt.hsvMid -> val = 1.0;
 
 	bmt.hsvTreble = (HSV* ) malloc(sizeof(HSV));
 	bmt.hsvTreble -> hue = 0;
@@ -53,7 +98,13 @@ void testApp::update(){
 	bass = integrateFft(fft.getBins(), bassMin, bassMax);
 	mid = integrateFft(fft.getBins(), midMin, midMax);
 	treble = integrateFft(fft.getBins(), trebleMin, trebleMax);
+	
 	pushMusicValues();
+
+	// drawRGBRect(0, bmt.rgbBass -> r, bmt.rgbBass -> g, bmt.rgbBass -> b);
+	// drawRGBRect(1, bmt.rgbMid -> r, bmt.rgbMid -> g, bmt.rgbMid -> b);
+	// drawRGBRect(2, bmt.rgbTreble -> r, bmt.rgbTreble -> g, bmt.rgbTreble -> b);
+
 }
 
 
@@ -67,7 +118,7 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 	else if (type == 1) {
 		hsvTriple -> val = std::min(bmtVal / midScale, 1.0);
 	}
-	// bass
+	// treble
 	else {
 		hsvTriple -> val = std::min(bmtVal / trebleScale, 1.0);
 	}
@@ -75,42 +126,33 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 
 void testApp::pushMusicValues(void) {
 	stepColor();
-
-	// serial.writeByte(power * 100);
-	serial.writeByte(frameBegin);
-	// serial.writeByte(scaled_bass);
-	// serial.writeByte(scaled_mid);
-	// serial.writeByte(scaled_treble);
+	
+	// serial.writeByte(frameBegin);
 
 	//Now write the 3 color triplets
-	//serial.writeByte(std::min((int) bmt.rgbBass -> r, 254));
-	//serial.writeByte(std::min((int) bmt.rgbBass -> g, 254));
-	//serial.writeByte(std::min((int) bmt.rgbBass -> b, 254));
+	//serial.writeByte(std::min( bmt.rgbBass -> r, 254));
+	//serial.writeByte(std::min( bmt.rgbBass -> g, 254));
+	//serial.writeByte(std::min( bmt.rgbBass -> b, 254));
 
-	serial.writeByte(std::min((int) bmt.rgbMid -> r, 254));
-	serial.writeByte(std::min((int) bmt.rgbMid -> g, 254));
-	serial.writeByte(std::min((int) bmt.rgbMid -> b, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> r, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> g, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> b, 254));
 
-	//serial.writeByte(std::min((int) bmt.rgbTreble -> r, 254));
-	//serial.writeByte(std::min((int) bmt.rgbTreble -> g, 254));
-	//serial.writeByte(std::min((int) bmt.rgbTreble -> b, 254));
-
-	std::cout << std::min((int) bmt.rgbMid -> r, 254) << " " << std::min((int) bmt.rgbMid -> g, 254) << " " << std::min((int) bmt.rgbMid -> b, 254) << std::endl;
+	//serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
+	//serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
+	//serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
 
 	usleep(2000);
 }
 
 void testApp::stepHue() {
-	bmt.hsvBass -> hue += hueStep;
-	bmt.hsvMid -> hue += hueStep;
-	bmt.hsvTreble -> hue += hueStep;
+	bmt.hsvBass -> hue = fmod(bmt.hsvBass -> hue + hueStep, 360);
+	bmt.hsvMid -> hue = fmod(bmt.hsvMid -> hue + hueStep, 360);
+	bmt.hsvTreble -> hue = fmod(bmt.hsvTreble -> hue + hueStep ,360);
 }
 
 void testApp::stepColor() {
-	stepHue();	
-	// char scaled_bass = std::min((int) (bass * bassScale), 254);
-	// char scaled_mid = std::min((int) (mid * midScale), 254);
-	// char scaled_treble = std::min((int) (treble * trebleScale), 254);
+	stepHue();
 	
 	updateColorVal(bmt.hsvBass, 0, bass);
 	updateColorVal(bmt.hsvMid, 1, mid);
@@ -130,29 +172,32 @@ void testApp::bmtToRGB(void) {
 }
 
 RGB* testApp::hsvToRGB(HSV* hsvTriple) {
-	double r,g,b;
+	double arr, gee, bee;
 	double h = hsvTriple -> hue;
 	double s = hsvTriple -> sat;
 	double v = hsvTriple -> val;
 
-  double i = floor(h * 6);
-  double f = h * 6 - i;
-	double p = v * (1 - s);
-	double q = v * (1 - f * s);
-  double t = v * (1 - (1 - f) * s);
+	double c = v * s;
+	double x = c * (1 - std::abs( fmod(h/60.0, 2) - 1) );
+	double m = v - c;
 
-  switch( (int) i % 6){
-      case 0: r = v, g = t, b = p; break;
-      case 1: r = q, g = v, b = p; break;
-      case 2: r = p, g = v, b = t; break;
-      case 3: r = p, g = q, b = v; break;
-      case 4: r = t, g = p, b = v; break;
-      case 5: r = v, g = p, b = q; break;
-  }
+	switch ( (int) (h/60) ) {
+		case 0: arr = c; gee = x; bee = 0; break;
+		case 1: arr = x; gee = c; bee = 0; break;
+		case 2: arr = 0; gee = c; bee = x; break;
+		case 3: arr = 0; gee = x; bee = c; break;
+		case 4: arr = x; gee = 0; bee = c; break;
+		case 5: arr = c; gee = 0; bee = x; break;
+	}
+
   RGB* rgb = (RGB* ) malloc(sizeof(RGB));
-  rgb -> r = r * 255;
-  rgb -> g = g * 255;
-  rgb -> g = b * 255;
+	arr = (arr+m) * 255;
+	gee = (gee+m) * 255;
+	bee = (bee+m) * 255;
+  rgb->r = (int) round(arr);
+  rgb->g = (int) round(gee);
+  rgb->b = (int) round(bee);
+
   return rgb;
 }
 
@@ -183,7 +228,60 @@ void testApp::draw(){
 
 	string msg = ofToString((int) ofGetFrameRate()) + " fps";
 	ofDrawBitmapString(msg, ofGetWidth() - 80, ofGetHeight() - 20);
+
+
+	int r, g, b;
+
+	ofPushMatrix();
+	r = bmt.rgbBass -> r;
+	g = bmt.rgbBass-> g;
+	b = bmt.rgbBass -> b;
+	ofSetColor(r,g,b);
+	ofFill();
+	ofRect(64 * 4, 20, 50, 50);
+	ofPopMatrix();	
+
+	//mid
+	ofPushMatrix();
+	r = bmt.rgbMid -> r;
+	g = bmt.rgbMid-> g;
+	b = bmt.rgbMid -> b;
+	ofSetColor(r,g,b);
+	ofFill();
+	ofRect(64 * 5, 20, 50, 50);
+	ofPopMatrix();
+
+	//treble
+	ofPushMatrix();
+	r = bmt.rgbTreble -> r;
+	g = bmt.rgbTreble -> g;
+	b = bmt.rgbTreble -> b;
+	ofSetColor(r,g,b);
+	ofFill();
+	ofRect(64 * 6, 20, 50, 50);
+	ofPopMatrix();
 }
+
+void testApp::drawRGBRect(int type, int r, int g, int b) {
+	std::cout << "got into draw rgbRect" << std::endl;
+	ofSetColor(r,g,b);
+	ofFill();
+	// ofPushMatrix();
+	//bass
+	if (type == 0) {
+		ofRect(64 * 4, 20, 50, 50);
+	}
+	//mid
+	else if (type == 1) {
+		ofRect(64 * 5, 20, 50, 50);
+	}
+	//treble
+	else {
+		ofRect(64 * 6, 20, 50, 50);
+	}
+	// ofPopMatrix();
+}
+
 
 void testApp::plotFft(const vector<float>& buffer, const float scale) {
 	ofNoFill();
@@ -212,3 +310,11 @@ float testApp::integrateFft(const vector<float>& bins, const unsigned int minFre
 	}
 	return total;
 }
+
+void testApp::printHSV(HSV* h) {
+		std::cout << "hsv: " << h-> hue << " " << h -> sat << " " << h -> val << ", ";
+}
+
+void testApp::printRGB(RGB* st) {
+	std::cout << "rgb: " << st-> r << " " << st -> g << " " << st -> b << std::endl;
+}	
