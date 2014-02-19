@@ -86,6 +86,10 @@ void testApp::initColor() {
 	bmt.hsvTreble -> hue = 0;
 	bmt.hsvTreble -> sat = 1.0;
 	bmt.hsvTreble -> val = 1.0;
+
+	bmt.rgbBass = (RGB* ) malloc(sizeof(RGB));
+	bmt.rgbMid = (RGB* ) malloc(sizeof(RGB));
+	bmt.rgbTreble = (RGB* ) malloc(sizeof(RGB));
 }
 
 void testApp::update(){
@@ -164,16 +168,12 @@ void testApp::stepColor() {
 }
 
 void testApp::bmtToRGB(void) {
-	free(bmt.rgbBass);
-	free(bmt.rgbMid);
-	free(bmt.rgbTreble);
-
-	bmt.rgbBass = hsvToRGB(bmt.hsvBass);
-	bmt.rgbMid = hsvToRGB(bmt.hsvMid);
-	bmt.rgbTreble = hsvToRGB(bmt.hsvTreble);
+	hsvToRGB(bmt.hsvBass, bmt.rgbBass);
+	hsvToRGB(bmt.hsvMid, bmt.rgbMid);
+	hsvToRGB(bmt.hsvTreble, bmt.rgbTreble);
 }
 
-RGB* testApp::hsvToRGB(HSV* hsvTriple) {
+void testApp::hsvToRGB(HSV* hsvTriple, RGB* rgbTriple) {
 	double arr, gee, bee;
 	double h = hsvTriple -> hue;
 	double s = hsvTriple -> sat;
@@ -192,15 +192,12 @@ RGB* testApp::hsvToRGB(HSV* hsvTriple) {
 		case 5: arr = c; gee = 0; bee = x; break;
 	}
 
-  RGB* rgb = (RGB* ) malloc(sizeof(RGB));
 	arr = (arr+m) * 255;
 	gee = (gee+m) * 255;
 	bee = (bee+m) * 255;
-  rgb->r = (int) round(arr);
-  rgb->g = (int) round(gee);
-  rgb->b = (int) round(bee);
-
-  return rgb;
+  rgbTriple->r = (int) round(arr);
+  rgbTriple->g = (int) round(gee);
+  rgbTriple->b = (int) round(bee);
 }
 
 

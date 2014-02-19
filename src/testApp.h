@@ -52,7 +52,7 @@ private:
 
 	void bmtToRGB(void);
 
-	RGB* hsvToRGB(HSV* hsvTriple);
+	void hsvToRGB(HSV* hsvTriple, RGB* rgbTriple);
 
 	void updateColorVal(HSV* hsvTriple, int type, double bmtVal);
 
