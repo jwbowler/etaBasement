@@ -112,7 +112,9 @@ void testApp::update(){
 void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 	//type == 0 -> bass
 	if (type == 0) {
-		hsvTriple -> val = std::min(bmtVal / bassScale, 1.0);
+		double thresh = 0.7;
+		double scaled = std::min(bmtVal / bassScale, 1.0);
+		hsvTriple -> val = (scaled >= thresh);
 	}
 	// mid
 	else if (type == 1) {

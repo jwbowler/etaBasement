@@ -72,7 +72,7 @@ private:
 	const unsigned int trebleMin = 1000;
 	const unsigned int trebleMax = 2000;
 	const int frameBegin = 255;
-	const double bassScale = 0.08;
+	const double bassScale = 0.05;
 	const double midScale = 1.1;
 	const double trebleScale = 1;
 	const double hueStep = 3;
