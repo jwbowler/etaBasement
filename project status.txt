@@ -1,0 +1,30 @@
+Current Inventory
+1 5m roll LED - $16
+1 Arduino Uno - $22.95
+1 Arduino Mega - $30 (got for free)
+1 XBee USB Adapter - $17.99
+2 Xbee Series 1 - $28.95
+1 Arduino Wireless Shield - $19.95
+12V 6A Power Supply- $9.30
+Audio Interface - $29.99
+Assortment Cables - $22.87
+
+196.95 (excluding Mega cost since free)
+
+
+To - Buy
+Some kind of wood - $20
+1 Arduino Wireless Shield- $19.95
+1 Xbee Series 1 - $28.95
+1 20A power supply- $23
+3 5m roll LED - $48
+10 STP16NF06 MOSFETS - $7.74
+2 OKI-78SR - $4.30
+
+Cost: 156.24
+
+To- Do List
+spray paint plywood black
+sketch design for ZBT letters
+Lay down tape
+Configure wiring/ power supply
