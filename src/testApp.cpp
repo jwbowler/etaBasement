@@ -19,18 +19,18 @@ void testApp::setup(){
 	fft.setUseNormalization(false);
 	bool john = 1;
 	//John's computer
-	if (john) {
-		if(!serial.setup("/dev/ttyUSB0", 9600)) {
-				std::cout << "Couldn't set up serial connection" << std::endl;
-				std::exit(1);
-		}
-	}
-	else {
-		if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
-			std::cout << "Couldn't set up serial connection" << std::endl;
-			std::exit(1);
-		}
-	}
+	// if (john) {
+	// 	if(!serial.setup("/dev/ttyUSB0", 9600)) {
+	// 			std::cout << "Couldn't set up serial connection" << std::endl;
+	// 			std::exit(1);
+	// 	}
+	// }
+	// else {
+	// 	if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
+	// 		std::cout << "Couldn't set up serial connection" << std::endl;
+	// 		std::exit(1);
+	// 	}
+	// }
 	initColor();
 }
 
@@ -91,18 +91,18 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 void testApp::pushMusicValues(void) {
 	stepColor();
 	
-	serial.writeByte(frameBegin);
+	// serial.writeByte(frameBegin);
 
 	//Now write the 3 color triplets
 	//serial.writeByte(std::min( bmt.rgbBass -> r, 254));
 	//serial.writeByte(std::min( bmt.rgbBass -> g, 254));
 	//serial.writeByte(std::min( bmt.rgbBass -> b, 254));
 
-	std::cout << std::min( bmt.rgbMid -> r, 254) << " " << std::min( bmt.rgbMid -> g, 254) << " " << std::min( bmt.rgbMid -> b, 254) << std::endl;
+	// std::cout << std::min( bmt.rgbMid -> r, 254) << " " << std::min( bmt.rgbMid -> g, 254) << " " << std::min( bmt.rgbMid -> b, 254) << std::endl;
 
-	serial.writeByte(std::min( bmt.rgbMid -> r, 254));
-	serial.writeByte(std::min( bmt.rgbMid -> g, 254));
-	serial.writeByte(std::min( bmt.rgbMid -> b, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> r, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> g, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> b, 254));
 
 	//serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
 	//serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
@@ -257,4 +257,89 @@ void testApp::printHSV(HSV* h) {
 
 void testApp::printRGB(RGB* st) {
 	std::cout << "rgb: " << st-> r << " " << st -> g << " " << st -> b << std::endl;
-}	
+}
+
+void testApp::keyPressed(int key) {
+	//Uses ASCII encoding of letters
+	//Was 'b'
+	if (key == 98) {
+		bassScale = std::max(bassScale - 0.01, 0.0);
+	}
+	// 'B'
+	else if (key == 66) {
+		bassScale += 0.1;
+	}
+	// 'm'
+	else if (key == 109) {
+		midScale = std::max(midScale -0.1, 0.0);
+	}
+	// 'M'
+	else if (key == 77) {
+		midScale += 0.1;
+	}
+	// 't'
+	else if (key == 116) {
+		trebleScale = std::max(trebleScale - 0.1, 0.0);
+	}
+	// 'T'
+	else if (key == 84) {
+		trebleScale += 0.1;
+	}
+	// o
+	else if (key == 111) {
+		bassMin = std::max(bassMin - 10, 0);
+	}
+	// O
+	else if (key == 79) {
+		bassMin += 10;
+	}
+	// p
+	else if (key == 80) {
+		bassMax = std::max(bassMax - 10, 0);
+	}
+	// P
+	else if (key == 52) {
+		bassMax += 20;
+	}
+	// k
+	else if (key == 107) {
+		midMin = std::max(midMin - 20, 0);
+	}
+	// K
+	else if (key == 75) {
+		midMin += 20;
+	}
+	// l
+	else if (key == 108) {
+		midMax = std::max(midMax - 20, 0);
+	}
+	// L
+	else if (key == 76) {
+		midMax += 20;
+	}
+	// n
+	else if (key == 110) {
+		trebleMin = std::max(trebleMin - 50, 0);
+	}
+	// N
+	else if (key == 75) {
+		trebleMin += 20;
+	}
+	// m
+	else if (key == 109) {
+		trebleMax = std::max(trebleMax - 50, 0);
+	}
+	// M
+	else if (key == 76) {
+		trebleMax += 50;
+	}
+	std::cout << "bassScale: " << bassScale << ", midScale: " << midScale << ", trebleScale: " << trebleScale << std::endl;
+}
+void testApp::keyReleased(int key) {
+	//Uses ASCII encoding of letters
+	//Was 'escape' so quit
+	if (key == 27) {
+		std::exit(0);
+	}
+
+}

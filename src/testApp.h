@@ -13,8 +13,8 @@ public:
 
 	// other standard callbacks:
 
-	//void keyPressed(int key);
-	//void keyReleased(int key);
+	void keyPressed(int key);
+	void keyReleased(int key);
 	//void mouseMoved(int x, int y);
 	//void mouseDragged(int x, int y, int button);
 	//void mousePressed(int x, int y, int button);
@@ -62,17 +62,17 @@ private:
 	const unsigned int fftBufferSize = 4096;
 	const unsigned int audioBufferSize = 256;
 	const unsigned int audioSampleRate = 44100;
-
-	const unsigned int bassMin = 0;
-	const unsigned int bassMax = 200;
-	const unsigned int midMin = 100;
-	const unsigned int midMax = 1000;
-	const unsigned int trebleMin = 1000;
-	const unsigned int trebleMax = 2000;
 	const int frameBegin = 255;
-	const double bassScale = 0.05;
-	const double midScale = 1.1;
-	const double trebleScale = 1;
-	const double hueStep = 1;
+
+	int bassMin = 0;
+	int bassMax = 200;
+	int midMin = 100;
+	int midMax = 1000;
+	int trebleMin = 1000;
+	int trebleMax = 2000;
+	double bassScale = 0.05;
+	double midScale = 1.1;
+	double trebleScale = 1;
+	double hueStep = 1;
 	BMT bmt;
 };
