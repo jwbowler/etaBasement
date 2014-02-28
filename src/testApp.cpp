@@ -21,6 +21,9 @@ void testApp::setup(){
 	bassScale = 0.05;
 	midScale = 1.1;
 	trebleScale = 1;
+	bassOffset = 0.3;
+	midOffset = 0.3;
+	trebleOffset = 0.3;
 	hueStep = 1;
 	bassBinary = false;
 
@@ -37,10 +40,10 @@ void testApp::setup(){
 	bool john = 1;
 	//John's computer
 	// if (john) {
-	if(!serial.setup("/dev/ttyUSB0", 9600)) {
-		std::cout << "Couldn't set up serial connection" << std::endl;
-		std::exit(1);
-	}
+	// if(!serial.setup("/dev/ttyUSB0", 9600)) {
+	// 	std::cout << "Couldn't set up serial connection" << std::endl;
+	// 	std::exit(1);
+	// }
 	// }
 	// else {
 	// 	if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
@@ -48,6 +51,8 @@ void testApp::setup(){
 	// 		std::exit(1);
 	// 	}
 	// }
+	setupGUI();
+
 	initColor();
 }
 
@@ -113,22 +118,22 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 void testApp::pushMusicValues(void) {
 	stepColor();
 	
-	serial.writeByte(frameBegin);
+	// serial.writeByte(frameBegin);
 
 	// Now write the 3 color triplets
-	serial.writeByte(std::min( bmt.rgbBass -> r, 254));
-	serial.writeByte(std::min( bmt.rgbBass -> g, 254));
-	serial.writeByte(std::min( bmt.rgbBass -> b, 254));
+	// serial.writeByte(std::min( bmt.rgbBass -> r, 254));
+	// serial.writeByte(std::min( bmt.rgbBass -> g, 254));
+	// serial.writeByte(std::min( bmt.rgbBass -> b, 254));
 
-	// std::cout << std::min( bmt.rgbMid -> r, 254) << " " << std::min( bmt.rgbMid -> g, 254) << " " << std::min( bmt.rgbMid -> b, 254) << std::endl;
+	// // std::cout << std::min( bmt.rgbMid -> r, 254) << " " << std::min( bmt.rgbMid -> g, 254) << " " << std::min( bmt.rgbMid -> b, 254) << std::endl;
 
-	serial.writeByte(std::min( bmt.rgbMid -> r, 254));
-	serial.writeByte(std::min( bmt.rgbMid -> g, 254));
-	serial.writeByte(std::min( bmt.rgbMid -> b, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> r, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> g, 254));
+	// serial.writeByte(std::min( bmt.rgbMid -> b, 254));
 
-	serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
-	serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
-	serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
+	// serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
+	// serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
+	// serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
 
 	usleep(10000);
 }
@@ -281,86 +286,6 @@ void testApp::printRGB(RGB* st) {
 	std::cout << "rgb: " << st-> r << " " << st -> g << " " << st -> b << std::endl;
 }
 
-void testApp::keyPressed(int key) {
-	//Uses ASCII encoding of letters
-	//Was 'b'
-	if (key == 98) {
-		bassScale = std::max(bassScale - 0.01, 0.0);
-	}
-	// 'B'
-	else if (key == 66) {
-		bassScale += 0.1;
-	}
-	// 'm'
-	else if (key == 109) {
-		midScale = std::max(midScale -0.1, 0.0);
-	}
-	// 'M'
-	else if (key == 77) {
-		midScale += 0.1;
-	}
-	// 't'
-	else if (key == 116) {
-		trebleScale = std::max(trebleScale - 0.1, 0.0);
-	}
-	// 'T'
-	else if (key == 84) {
-		trebleScale += 0.1;
-	}
-	// o
-	else if (key == 111) {
-		bassMin = std::max(bassMin - 10, 0);
-	}
-	// O
-	else if (key == 79) {
-		bassMin += 10;
-	}
-	// p
-	else if (key == 80) {
-		bassMax = std::max(bassMax - 10, 0);
-	}
-	// P
-	else if (key == 52) {
-		bassMax += 20;
-	}
-	// k
-	else if (key == 107) {
-		midMin = std::max(midMin - 20, 0);
-	}
-	// K
-	else if (key == 75) {
-		midMin += 20;
-	}
-	// l
-	else if (key == 108) {
-		midMax = std::max(midMax - 20, 0);
-	}
-	// L
-	else if (key == 76) {
-		midMax += 20;
-	}
-	// n
-	else if (key == 110) {
-		trebleMin = std::max(trebleMin - 50, 0);
-	}
-	// N
-	else if (key == 75) {
-		trebleMin += 20;
-	}
-	// m
-	else if (key == 109) {
-		trebleMax = std::max(trebleMax - 50, 0);
-	}
-	// M
-	else if (key == 76) {
-		trebleMax += 50;
-	}
-
-	else if (key == 'y') {
-		bassBinary = !bassBinary;
-	}
-	std::cout << "bassScale: " << bassScale << ", midScale: " << midScale << ", trebleScale: " << trebleScale << std::endl;
-}
 void testApp::keyReleased(int key) {
 	//Uses ASCII encoding of letters
 	//Was 'escape' so quit
@@ -368,4 +293,115 @@ void testApp::keyReleased(int key) {
 		std::exit(0);
 	}
 
+}
+void testApp::setupGUI(void) {
+	setupBassCanvas();
+	setupMidCanvas();
+	setupTrebleCanvas();
+}
+void testApp::setupBassCanvas(void) {
+	bassCanvas = new ofxUISuperCanvas("Bass Controls: ", 500,300, 500, 200);  
+	bassCanvas -> addSlider("Bass Scaling",0.001,4.0,bassScale); 
+	bassCanvas -> addSpacer();
+	bassCanvas -> addSlider("Bass Offset", 0.0, 1.0, bassOffset); 
+	bassCanvas -> addSpacer();
+	bassCanvas -> addRangeSlider("Bass Range",0, 300, bassMin, bassMax); 
+
+
+	bassCanvas->autoSizeToFitWidgets(); 
+	ofAddListener(bassCanvas->newGUIEvent, this, &testApp::guiEvent); 
+	// gui->addToggle("FULLSCREEN", false);
+}
+
+void testApp::setupMidCanvas(void) {
+	midCanvas = new ofxUISuperCanvas("Mid Controls: ", 500,450, 500, 200);  
+	midCanvas -> addSlider("Mid Scaling",0.001,4.0,bassScale); 
+	midCanvas -> addSpacer();
+	midCanvas -> addSlider("Mid Offset", 0.0, 1.0, midOffset); 
+	midCanvas -> addSpacer();
+	midCanvas -> addRangeSlider("Mid Range",0,1500, midMin,midMax); 
+
+	midCanvas->autoSizeToFitWidgets(); 
+	ofAddListener(midCanvas->newGUIEvent, this, &testApp::guiEvent); 
+}
+
+void testApp::setupTrebleCanvas(void) {
+	trebleCanvas = new ofxUISuperCanvas("Treble Controls: ", 500,600, 500, 200);  
+	trebleCanvas -> addSlider("Treble Scaling",0.001,4.0,bassScale); 
+	trebleCanvas -> addSpacer();
+	trebleCanvas -> addSlider("Treble Offset", 0.0, 1.0, trebleOffset); 
+	trebleCanvas -> addSpacer();
+	trebleCanvas -> addRangeSlider("Treble Range", 1000 ,4000,trebleMin, trebleMax); 
+
+
+	trebleCanvas->autoSizeToFitWidgets(); 
+	ofAddListener(trebleCanvas->newGUIEvent, this, &testApp::guiEvent); 
+	// gui->addToggle("FULLSCREEN", false);
+}
+
+
+void testApp::exit()
+{
+    delete bassCanvas; 
+    delete midCanvas;
+    delete trebleCanvas;
+}
+
+void testApp::guiEvent(ofxUIEventArgs &e)
+{
+    if(e.getName() == "FULLSCREEN")
+    {
+        ofxUIToggle *toggle = e.getToggle(); 
+        ofSetFullscreen(toggle->getValue()); 
+    }
+
+    else if(e.getName() == "Bass Scaling")
+    {
+        ofxUISlider *slider = e.getSlider(); 
+        bassScale = slider -> getScaledValue();
+    } 
+    else if(e.getName() == "Bass Offset") {
+    	ofxUISlider *slider = e.getSlider();
+    	bassOffset = slider -> getScaledValue();
+    }
+    else if(e.getName() == "Bass Range") {
+    	ofxUIRangeSlider *slider = (ofxUIRangeSlider *) e.getSlider();
+    	bassMin = slider -> getScaledValueLow();
+    	bassMax = slider -> getScaledValueHigh();
+    }
+
+    //MID ELEMENTS
+    else if(e.getName() == "Mid Scaling")
+    {
+        ofxUISlider *slider = e.getSlider(); 
+        // ofBackground(slider->getScaledValue());
+        midScale = slider -> getScaledValue();
+    } 
+    else if(e.getName() == "Mid Offset") {
+    	ofxUISlider *slider = e.getSlider();
+    	midOffset = slider -> getScaledValue();
+    }
+    else if(e.getName() == "Mid Range") {
+    	ofxUIRangeSlider *slider = (ofxUIRangeSlider *) e.getSlider();
+    	midMin = slider -> getScaledValueLow();
+    	midMax = slider -> getScaledValueHigh();
+    }
+
+    //Treble Elements
+    else if(e.getName() == "Treble Scaling")
+    {
+        ofxUISlider *slider = e.getSlider(); 
+        trebleScale = slider -> getScaledValue();
+    } 
+    else if(e.getName() == "Treble Offset") {
+    	ofxUISlider *slider = e.getSlider();
+    	trebleOffset = slider -> getScaledValue();
+    }
+    else if(e.getName() == "Treble Range") {
+    	ofxUIRangeSlider *slider = (ofxUIRangeSlider *) e.getSlider();
+    	trebleMin = slider -> getScaledValueLow();
+    	trebleMax = slider -> getScaledValueHigh();
+    }
+    
+    
 }

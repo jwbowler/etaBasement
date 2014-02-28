@@ -1,1 +1,3 @@
 ofxFft
+ofxXmlSettings
+ofxUI

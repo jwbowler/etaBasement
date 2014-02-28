@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxEasyFft.h"
 #include "BMT.h"
+#include "ofxUI.h"
 
 class testApp : public ofBaseApp {
 
@@ -13,7 +14,7 @@ public:
 
 	// other standard callbacks:
 
-	void keyPressed(int key);
+	// void keyPressed(int key);
 	void keyReleased(int key);
 	//void mouseMoved(int x, int y);
 	//void mouseDragged(int x, int y, int button);
@@ -30,7 +31,15 @@ private:
 	void printRGB(RGB* st);
 
 	ofxEasyFft fft;
+	ofxUISuperCanvas *bassCanvas;
+	ofxUISuperCanvas *midCanvas;
+	ofxUISuperCanvas *trebleCanvas;
+
+
 	ofSerial serial;
+
+	void exit(); 	
+	void guiEvent(ofxUIEventArgs &e);
 
 	void plotFft(const vector<float>& buffer, const float scale);
 
@@ -49,6 +58,14 @@ private:
 	void hsvToRGB(HSV* hsvTriple, RGB* rgbTriple);
 
 	void updateColorVal(HSV* hsvTriple, int type, double bmtVal);
+
+	void setupGUI(void);
+
+	void setupBassCanvas(void);
+	void setupMidCanvas(void);
+	void setupTrebleCanvas(void);
+
+
 
 	/*constexpr*/ int getBinFromFreq(const unsigned int freq) {
 		return fftBufferSize * freq / audioSampleRate;
@@ -74,6 +91,9 @@ private:
 	double bassScale;
 	double midScale;
 	double trebleScale;
+	double bassOffset;
+	double midOffset;
+	double trebleOffset;
 	double hueStep;
 	BMT bmt;
 };
