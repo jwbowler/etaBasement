@@ -31,6 +31,7 @@ private:
 	void printRGB(RGB* st);
 
 	ofxEasyFft fft;
+	ofxUISuperCanvas *miscCanvas;
 	ofxUISuperCanvas *bassCanvas;
 	ofxUISuperCanvas *midCanvas;
 	ofxUISuperCanvas *trebleCanvas;
@@ -64,6 +65,7 @@ private:
 	void setupBassCanvas(void);
 	void setupMidCanvas(void);
 	void setupTrebleCanvas(void);
+	void setupMiscCanvas(void);
 
 
 
