@@ -96,22 +96,18 @@ void testApp::update(){
 void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 	//type == 0 -> bass
 	if (type == 0) {
-		double thresh = 0.7;
 		double scaled = std::min(bmtVal / bassScale, 1.0);
-		if (bassBinary) {
-			hsvTriple -> val = (scaled >= thresh);
-		}
-		else {
-			hsvTriple -> val = scaled;
-		}
+		hsvTriple -> val = std::max(scaled - bassOffset, 0.0);
 	}
 	// mid
 	else if (type == 1) {
-		hsvTriple -> val = std::min(bmtVal / midScale, 1.0);
+		double scaled = std::min(bmtVal / midScale, 1.0);
+		hsvTriple -> val = std::max(scaled - midOffset, 0.0);
 	}
 	// treble
 	else {
-		hsvTriple -> val = std::min(bmtVal / trebleScale, 1.0);
+		double scaled = std::min(bmtVal / trebleScale, 1.0);
+		hsvTriple -> val = std::max(scaled - trebleOffset, 0.0);
 	}
 }
 
