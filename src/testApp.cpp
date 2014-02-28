@@ -8,6 +8,23 @@
 #include <math.h>
 
 void testApp::setup(){
+	power = 0;
+	bass = 0;
+	mid = 0;
+	treble = 0;
+	bassMin = 0;
+	bassMax = 200;
+	midMin = 100;
+	midMax = 1000;
+	trebleMin = 1000;
+	trebleMax = 2000;
+	bassScale = 0.05;
+	midScale = 1.1;
+	trebleScale = 1;
+	hueStep = 1;
+	bassBinary = false;
+
+
 	ofSetVerticalSync(true);
 	ofSetFrameRate(60);
 
@@ -20,10 +37,10 @@ void testApp::setup(){
 	bool john = 1;
 	//John's computer
 	// if (john) {
-	// 	if(!serial.setup("/dev/ttyUSB0", 9600)) {
-	// 			std::cout << "Couldn't set up serial connection" << std::endl;
-	// 			std::exit(1);
-	// 	}
+	if(!serial.setup("/dev/ttyUSB0", 9600)) {
+		std::cout << "Couldn't set up serial connection" << std::endl;
+		std::exit(1);
+	}
 	// }
 	// else {
 	// 	if(!serial.setup("/dev/tty.usbmodem1421", 9600)) {
@@ -76,7 +93,12 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 	if (type == 0) {
 		double thresh = 0.7;
 		double scaled = std::min(bmtVal / bassScale, 1.0);
-		hsvTriple -> val = (scaled >= thresh);
+		if (bassBinary) {
+			hsvTriple -> val = (scaled >= thresh);
+		}
+		else {
+			hsvTriple -> val = scaled;
+		}
 	}
 	// mid
 	else if (type == 1) {
@@ -91,22 +113,22 @@ void testApp::updateColorVal(HSV* hsvTriple, int type, double bmtVal) {
 void testApp::pushMusicValues(void) {
 	stepColor();
 	
-	// serial.writeByte(frameBegin);
+	serial.writeByte(frameBegin);
 
-	//Now write the 3 color triplets
-	//serial.writeByte(std::min( bmt.rgbBass -> r, 254));
-	//serial.writeByte(std::min( bmt.rgbBass -> g, 254));
-	//serial.writeByte(std::min( bmt.rgbBass -> b, 254));
+	// Now write the 3 color triplets
+	serial.writeByte(std::min( bmt.rgbBass -> r, 254));
+	serial.writeByte(std::min( bmt.rgbBass -> g, 254));
+	serial.writeByte(std::min( bmt.rgbBass -> b, 254));
 
 	// std::cout << std::min( bmt.rgbMid -> r, 254) << " " << std::min( bmt.rgbMid -> g, 254) << " " << std::min( bmt.rgbMid -> b, 254) << std::endl;
 
-	// serial.writeByte(std::min( bmt.rgbMid -> r, 254));
-	// serial.writeByte(std::min( bmt.rgbMid -> g, 254));
-	// serial.writeByte(std::min( bmt.rgbMid -> b, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> r, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> g, 254));
+	serial.writeByte(std::min( bmt.rgbMid -> b, 254));
 
-	//serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
-	//serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
-	//serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> r, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> g, 254));
+	serial.writeByte(std::min( bmt.rgbTreble -> b, 254));
 
 	usleep(10000);
 }
@@ -332,6 +354,10 @@ void testApp::keyPressed(int key) {
 	// M
 	else if (key == 76) {
 		trebleMax += 50;
+	}
+
+	else if (key == 'y') {
+		bassBinary = !bassBinary;
 	}
 	std::cout << "bassScale: " << bassScale << ", midScale: " << midScale << ", trebleScale: " << trebleScale << std::endl;
 }

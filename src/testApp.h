@@ -31,10 +31,6 @@ private:
 
 	ofxEasyFft fft;
 	ofSerial serial;
-	float power = 0;
-	float bass = 0;
-	float mid = 0;
-	float treble = 0;
 
 	void plotFft(const vector<float>& buffer, const float scale);
 
@@ -64,15 +60,20 @@ private:
 	const unsigned int audioSampleRate = 44100;
 	const int frameBegin = 255;
 
-	int bassMin = 0;
-	int bassMax = 200;
-	int midMin = 100;
-	int midMax = 1000;
-	int trebleMin = 1000;
-	int trebleMax = 2000;
-	double bassScale = 0.05;
-	double midScale = 1.1;
-	double trebleScale = 1;
-	double hueStep = 1;
+	bool bassBinary;
+	float power;
+	float bass;
+	float mid;
+	float treble;
+	int bassMin;
+	int bassMax;
+	int midMin;
+	int midMax;
+	int trebleMin;
+	int trebleMax;
+	double bassScale;
+	double midScale;
+	double trebleScale;
+	double hueStep;
 	BMT bmt;
 };
