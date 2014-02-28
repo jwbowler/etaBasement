@@ -291,10 +291,20 @@ void testApp::keyReleased(int key) {
 
 }
 void testApp::setupGUI(void) {
+	setupMiscCanvas();
 	setupBassCanvas();
 	setupMidCanvas();
 	setupTrebleCanvas();
 }
+
+void testApp::setupMiscCanvas(void) {
+	miscCanvas = new ofxUISuperCanvas("Misc Controls: ", 500,200, 500, 200);  
+	miscCanvas -> addToggle("Fullscreen", false);
+	miscCanvas -> addSpacer();
+	miscCanvas -> addSlider("Hue Step",0.0, 10.0, hueStep); 
+	ofAddListener(miscCanvas->newGUIEvent, this, &testApp::guiEvent); 
+}
+
 void testApp::setupBassCanvas(void) {
 	bassCanvas = new ofxUISuperCanvas("Bass Controls: ", 500,300, 500, 200);  
 	bassCanvas -> addSlider("Bass Scaling",0.001,4.0,bassScale); 
@@ -306,7 +316,6 @@ void testApp::setupBassCanvas(void) {
 
 	bassCanvas->autoSizeToFitWidgets(); 
 	ofAddListener(bassCanvas->newGUIEvent, this, &testApp::guiEvent); 
-	// gui->addToggle("FULLSCREEN", false);
 }
 
 void testApp::setupMidCanvas(void) {
@@ -332,12 +341,12 @@ void testApp::setupTrebleCanvas(void) {
 
 	trebleCanvas->autoSizeToFitWidgets(); 
 	ofAddListener(trebleCanvas->newGUIEvent, this, &testApp::guiEvent); 
-	// gui->addToggle("FULLSCREEN", false);
 }
 
 
 void testApp::exit()
 {
+	delete miscCanvas;
     delete bassCanvas; 
     delete midCanvas;
     delete trebleCanvas;
@@ -345,10 +354,15 @@ void testApp::exit()
 
 void testApp::guiEvent(ofxUIEventArgs &e)
 {
-    if(e.getName() == "FULLSCREEN")
+    if(e.getName() == "Fullscreen")
     {
         ofxUIToggle *toggle = e.getToggle(); 
         ofSetFullscreen(toggle->getValue()); 
+    }
+    else if(e.getName() == "Hue Step") {
+    	ofxUISlider *slider = e.getSlider();
+    	hueStep = slider -> getScaledValue();
+    	std::cout << "hue step: " << hueStep << std::endl;
     }
 
     else if(e.getName() == "Bass Scaling")
