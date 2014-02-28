@@ -362,7 +362,6 @@ void testApp::guiEvent(ofxUIEventArgs &e)
     else if(e.getName() == "Hue Step") {
     	ofxUISlider *slider = e.getSlider();
     	hueStep = slider -> getScaledValue();
-    	std::cout << "hue step: " << hueStep << std::endl;
     }
 
     else if(e.getName() == "Bass Scaling")
